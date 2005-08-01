@@ -1,24 +1,21 @@
 Name:           krecipes
 Version:        0.8.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Krecipes: Your Way to Cook with Tux!
 
 Group:          Applications/Productivity
 License:        GPL
 URL:            http://krecipes.sourceforge.net/
-Source0:        http://prdownloads.sourceforge.net/krecipes/krecipes-%{version}.tar.gz
+Source0:        http://download.sourceforge.net/krecipes/krecipes-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  kdelibs-devel > 3.1, sqlite-devel
-Requires:       kdebase >= 3.1, qt-MySQL, qt-PostgreSQL, sqlite
+Requires:       kdebase >= 3.1, sqlite
 
 patch0:		krecipes-gcc4.patch
 
 %description
-Krecipes is a program that lets you to manage your 
-recipes, create shopping lists, choose a recipe based 
-on available ingredients and plan your menu/diet in advance.
-Supports MySQL, Postgres and sqlite backends.
+Application to manage recipes and shopping-lists
 
 %prep
 %setup -q
@@ -27,6 +24,7 @@ Supports MySQL, Postgres and sqlite backends.
 
 %build
 unset QTDIR || : ; . /etc/profile.d/qt.sh
+export QTLIB=${QTDIR}/lib QTINC=${QTDIR}/include
 %configure --disable-rpath
 make %{?_smp_mflags}
 
@@ -64,7 +62,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -f %{name}.lang
 %defattr(-,root,root,-)
-%doc
+%doc TODO AUTHORS README COPYING ChangeLog
 %{_bindir}/krecipes
 %{_datadir}/applications/fedora-krecipes.desktop
 %{_datadir}/apps/krecipes
@@ -72,5 +70,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sat Jul 30 2005 <dennis@ausil.us> - 0.8.1-2%{?dist}
+- Remove hard requirement for qt-MySQL and qt-Postgresql
+- add exlicit QT lib and include dirs  for x86_64 build
+- Fix summary to not read like a marketing ploy.
 * Sun Jul 24 2005 <dennis@ausil.us> - 0.8.1-1%{?dist}
 - Initial build
