@@ -1,7 +1,7 @@
 Name:           krecipes
 Version:        0.8.1
 Release:        2%{?dist}
-Summary:        Krecipes: Your Way to Cook with Tux!
+Summary:        Application to manage recipes and shopping-lists
 
 Group:          Applications/Productivity
 License:        GPL
@@ -10,12 +10,15 @@ Source0:        http://download.sourceforge.net/krecipes/krecipes-%{version}.tar
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  kdelibs-devel > 3.1, sqlite-devel
-Requires:       kdebase >= 3.1, sqlite
+Requires:       kdebase >= 3.1
 
 patch0:		krecipes-gcc4.patch
 
 %description
-Application to manage recipes and shopping-lists
+Krecipes is a program that lets you to manage your recipes, create
+shopping lists, choose a recipe based on available ingredients and plan
+your menu/diet in advance.
+
 
 %prep
 %setup -q
@@ -74,5 +77,6 @@ rm -rf $RPM_BUILD_ROOT
 - Remove hard requirement for qt-MySQL and qt-Postgresql
 - add exlicit QT lib and include dirs  for x86_64 build
 - Fix summary to not read like a marketing ploy.
+
 * Sun Jul 24 2005 <dennis@ausil.us> - 0.8.1-1%{?dist}
 - Initial build
