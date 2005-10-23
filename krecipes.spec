@@ -1,6 +1,6 @@
 Name:           krecipes
 Version:        0.8.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Application to manage recipes and shopping-lists
 
 Group:          Applications/Productivity
@@ -9,7 +9,7 @@ URL:            http://krecipes.sourceforge.net/
 Source0:        http://download.sourceforge.net/krecipes/krecipes-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:  kdelibs-devel > 3.1, sqlite-devel
+BuildRequires:  kdelibs-devel > 3.1, sqlite-devel, desktop-file-utils
 Requires:       kdebase >= 3.1
 
 patch0:		krecipes-gcc4.patch
@@ -62,6 +62,12 @@ fi
 %clean
 rm -rf $RPM_BUILD_ROOT
 
+%post
+touch --no-create %{_datadir}/icons/hicolor || :
+
+%postun
+touch --no-create %{_datadir}/icons/hicolor || :
+
 
 %files -f %{name}.lang
 %defattr(-,root,root,-)
@@ -73,6 +79,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sat Oct 20 2005 Dennis Gilmore <dennis@ausil.us> - 0.8.1-3%{?dist}
+- add BuildRequires desktop-file-utils  http://fedoraproject.org/wiki/QAChecklist
+- add %post and %postun scriptlets  to notify of new icons per
+- http://standards.freedesktop.org/icon-theme-spec/icon-theme-spec-latest.html#implementation_notes
 * Sat Jul 30 2005 <dennis@ausil.us> - 0.8.1-2%{?dist}
 - Remove hard requirement for qt-MySQL and qt-Postgresql
 - add exlicit QT lib and include dirs  for x86_64 build
