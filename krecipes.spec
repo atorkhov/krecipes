@@ -1,6 +1,6 @@
 Name:           krecipes
-Version:        0.8.1
-Release:        3%{?dist}
+Version:        0.9
+Release:        1%{?dist}
 Summary:        Application to manage recipes and shopping-lists
 
 Group:          Applications/Productivity
@@ -79,6 +79,8 @@ touch --no-create %{_datadir}/icons/hicolor || :
 
 
 %changelog
+* Wed Nov 11 2005 Dennis Gilmore <dennis@ausil.us> - 0.9-1
+- update to 0.9
 * Sat Oct 20 2005 Dennis Gilmore <dennis@ausil.us> - 0.8.1-3%{?dist}
 - add BuildRequires desktop-file-utils  http://fedoraproject.org/wiki/QAChecklist
 - add %post and %postun scriptlets  to notify of new icons per
