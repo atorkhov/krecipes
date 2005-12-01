@@ -1,6 +1,6 @@
 Name:           krecipes
 Version:        0.9
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Application to manage recipes and shopping-lists
 
 Group:          Applications/Productivity
@@ -46,7 +46,6 @@ desktop-file-install \
 --add-category=Qt \
 --delete-original \
 $RPM_BUILD_ROOT%{_datadir}/applnk/Utilities/krecipes.desktop
-
 ## File lists
 # locale's
 %find_lang %{name} || touch %{name}.lang
@@ -64,9 +63,11 @@ rm -rf $RPM_BUILD_ROOT
 
 %post
 touch --no-create %{_datadir}/icons/hicolor || :
+touch --no-create %{_datadir}/icons/crystalsvg || :
 
 %postun
 touch --no-create %{_datadir}/icons/hicolor || :
+touch --no-create %{_datadir}/icons/crystalsvg || :
 
 
 %files -f %{name}.lang
@@ -76,9 +77,12 @@ touch --no-create %{_datadir}/icons/hicolor || :
 %{_datadir}/applications/fedora-krecipes.desktop
 %{_datadir}/apps/krecipes
 %{_datadir}/icons/hicolor/*/apps/*
-
+%{_datadir}/icons/crystalsvg/*/mimetypes/krecipes_file.png
+%{_datadir}/mimelnk/*/*.desktop
 
 %changelog
+* Wed Nov 11 2005 Dennis Gilmore <dennis@ausil.us> - 0.9-2
+- fix missing files
 * Wed Nov 11 2005 Dennis Gilmore <dennis@ausil.us> - 0.9-1
 - update to 0.9
 * Sat Oct 20 2005 Dennis Gilmore <dennis@ausil.us> - 0.8.1-3%{?dist}
