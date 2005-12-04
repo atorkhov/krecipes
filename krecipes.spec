@@ -1,6 +1,6 @@
 Name:           krecipes
 Version:        0.9
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Application to manage recipes and shopping-lists
 
 Group:          Applications/Productivity
@@ -9,10 +9,11 @@ URL:            http://krecipes.sourceforge.net/
 Source0:        http://download.sourceforge.net/krecipes/krecipes-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:  kdelibs-devel > 3.1, sqlite-devel, desktop-file-utils
+BuildRequires:  kdelibs-devel > 3.1, sqlite-devel, desktop-file-utils, libacl-devel
 Requires:       kdebase >= 3.1
 
 patch0:		krecipes-gcc4.patch
+patch1:		krecipes-X11.patch
 
 %description
 Krecipes is a program that lets you to manage your recipes, create
@@ -23,6 +24,10 @@ your menu/diet in advance.
 %prep
 %setup -q
 %patch0 -p1 -b .gcc4
+# autoconf tools check for X is a file in libXt-devel  and Xt lib
+# we dont use or link against libXt so rather than adding an extra
+# BuildRequires I patched configure to look for something thats there
+%patch1 -p1 -b .X11
 
 
 %build
@@ -81,9 +86,11 @@ touch --no-create %{_datadir}/icons/crystalsvg || :
 %{_datadir}/mimelnk/*/*.desktop
 
 %changelog
-* Wed Nov 11 2005 Dennis Gilmore <dennis@ausil.us> - 0.9-2
+* Sat Dec 03 2005 Dennis Gilmore <dennis@ausil.us> - 0.9-3
+- fix BuildRequies for libacl and add patch for X check.
+* Wed Nov 30 2005 Dennis Gilmore <dennis@ausil.us> - 0.9-2
 - fix missing files
-* Wed Nov 11 2005 Dennis Gilmore <dennis@ausil.us> - 0.9-1
+* Wed Nov 30 2005 Dennis Gilmore <dennis@ausil.us> - 0.9-1
 - update to 0.9
 * Sat Oct 20 2005 Dennis Gilmore <dennis@ausil.us> - 0.8.1-3%{?dist}
 - add BuildRequires desktop-file-utils  http://fedoraproject.org/wiki/QAChecklist
