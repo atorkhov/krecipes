@@ -1,6 +1,6 @@
 Name:           krecipes
 Version:        0.9.1
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Application to manage recipes and shopping-lists
 
 Group:          Applications/Productivity
@@ -86,6 +86,8 @@ touch --no-create %{_datadir}/icons/crystalsvg || :
 %{_datadir}/mimelnk/*/*.desktop
 
 %changelog
+* Mon Dec 05 2005 Dennis Gilmore <dennis@ausil.us> - 0.9.1-2
+- retag because patch wasnt uploaded
 * Sun Dec 04 2005 Dennis Gilmore <dennis@ausil.us> - 0.9.1-1
 - update to 0.9.1  this fixes a bug in mysql database creation
 * Sat Dec 03 2005 Dennis Gilmore <dennis@ausil.us> - 0.9-3
