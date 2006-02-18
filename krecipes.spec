@@ -1,6 +1,6 @@
 Name:           krecipes
 Version:        0.9.1
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Application to manage recipes and shopping-lists
 
 Group:          Applications/Productivity
@@ -86,6 +86,9 @@ touch --no-create %{_datadir}/icons/crystalsvg || :
 %{_datadir}/mimelnk/*/*.desktop
 
 %changelog
+* Sat Feb 18 2006 Dennis Gilmore <dennis@ausil.us> - 0.9.1-4
+-rebuild for fc5 
+
 * Wed Dec 21 2005 Dennis Gilmore <dennis@ausil.us> - 0.9.1-3
 -Rebuild for gcc 4.1
 * Mon Dec 05 2005 Dennis Gilmore <dennis@ausil.us> - 0.9.1-2
