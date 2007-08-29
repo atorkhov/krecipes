@@ -1,10 +1,10 @@
 Name:           krecipes
 Version:        0.9.1
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Application to manage recipes and shopping-lists
 
 Group:          Applications/Productivity
-License:        GPL
+License:        GPLv2+
 URL:            http://krecipes.sourceforge.net/
 Source0:        http://download.sourceforge.net/krecipes/krecipes-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -86,6 +86,10 @@ touch --no-create %{_datadir}/icons/crystalsvg || :
 %{_datadir}/mimelnk/*/*.desktop
 
 %changelog
+* Wed Aug 29 2007 Dennis Gilmore <dennis@ausil.us> - 0.9.1-6
+- rebuild for F8
+- clarify license GPLv2+
+
 * Sat Sep 02 2006 Dennis Gilmore <dennis@ausil.us> - 0.9.1-5
 - rebuild for fc6
 
