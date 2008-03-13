@@ -1,6 +1,6 @@
 Name:           krecipes
 Version:        0.9.1
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        Application to manage recipes and shopping-lists
 
 Group:          Applications/Productivity
@@ -9,8 +9,7 @@ URL:            http://krecipes.sourceforge.net/
 Source0:        http://download.sourceforge.net/krecipes/krecipes-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:  kdelibs-devel > 3.1, sqlite-devel, desktop-file-utils, libacl-devel
-Requires:       kdebase >= 3.1
+BuildRequires:  kdelibs3-devel , sqlite-devel, desktop-file-utils, libacl-devel
 
 patch0:		krecipes-gcc4.patch
 patch1:		krecipes-X11.patch
@@ -86,6 +85,9 @@ touch --no-create %{_datadir}/icons/crystalsvg || :
 %{_datadir}/mimelnk/*/*.desktop
 
 %changelog
+* Thu Mar 13 2008 Dennis Gilmore <dennis@ausil.us> - 0.9.1-8
+- fix BuildRequires
+
 * Mon Feb 18 2008 Fedora Release Engineering <rel-eng@fedoraproject.org> - 0.9.1-7
 - Autorebuild for GCC 4.3
 
