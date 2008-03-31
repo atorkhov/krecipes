@@ -1,6 +1,6 @@
 Name:           krecipes
 Version:        0.9.1
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        Application to manage recipes and shopping-lists
 
 Group:          Applications/Productivity
@@ -9,10 +9,14 @@ URL:            http://krecipes.sourceforge.net/
 Source0:        http://download.sourceforge.net/krecipes/krecipes-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:  kdelibs3-devel , sqlite-devel, desktop-file-utils, libacl-devel
+BuildRequires:  desktop-file-utils
+BuildRequires:  gettext
+BuildRequires:  kdelibs3-devel
+BuildRequires:  sqlite-devel
 
-patch0:		krecipes-gcc4.patch
-patch1:		krecipes-X11.patch
+Patch0:		krecipes-gcc4.patch
+Patch1:		krecipes-X11.patch
+Patch2:         krecipes-0.9.1-gcc43.patch
 
 %description
 Krecipes is a program that lets you to manage your recipes, create
@@ -22,17 +26,25 @@ your menu/diet in advance.
 
 %prep
 %setup -q
-%patch0 -p1 -b .gcc4
+
+## Neither patch0 or patch1 should be required anymore -- Rex
+#patch0 -p1 -b .gcc4
 # autoconf tools check for X is a file in libXt-devel  and Xt lib
 # we dont use or link against libXt so rather than adding an extra
 # BuildRequires I patched configure to look for something thats there
-%patch1 -p1 -b .X11
+#patch1 -p1 -b .X11
+
+%patch2 -p1 -b .gcc43
 
 
 %build
 unset QTDIR || : ; . /etc/profile.d/qt.sh
-export QTLIB=${QTDIR}/lib QTINC=${QTDIR}/include
-%configure --disable-rpath
+
+%configure \
+  --disable-rpath \
+  --without-mysql \
+  --without-postgresql
+
 make %{?_smp_mflags}
 
 
@@ -43,13 +55,13 @@ make install DESTDIR=$RPM_BUILD_ROOT
 desktop-file-install \
 --dir $RPM_BUILD_ROOT%{_datadir}/applications \
 --vendor=fedora \
---add-category=X-Fedora \
 --add-category=Application \
 --add-category=Utility \
 --add-category=KDE \
 --add-category=Qt \
 --delete-original \
 $RPM_BUILD_ROOT%{_datadir}/applnk/Utilities/krecipes.desktop
+
 ## File lists
 # locale's
 %find_lang %{name} || touch %{name}.lang
@@ -85,6 +97,11 @@ touch --no-create %{_datadir}/icons/crystalsvg || :
 %{_datadir}/mimelnk/*/*.desktop
 
 %changelog
+* Mon Mar 31 2008 Rex Dieter <rdieter@fedoraproject.org> - 0.9.1-9
+- gcc43 patch (#433986)
+- BR: gettext
+- --without-mysql --without-postgresql
+
 * Thu Mar 13 2008 Dennis Gilmore <dennis@ausil.us> - 0.9.1-8
 - fix BuildRequires
 
