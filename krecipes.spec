@@ -1,6 +1,6 @@
 Name:           krecipes
 Version:        0.9.1
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        Application to manage recipes and shopping-lists
 
 Group:          Applications/Productivity
@@ -97,6 +97,9 @@ touch --no-create %{_datadir}/icons/crystalsvg || :
 %{_datadir}/mimelnk/*/*.desktop
 
 %changelog
+* Wed Feb 25 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.9.1-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_11_Mass_Rebuild
+
 * Mon Mar 31 2008 Rex Dieter <rdieter@fedoraproject.org> - 0.9.1-9
 - gcc43 patch (#433986)
 - BR: gettext
