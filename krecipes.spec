@@ -1,6 +1,6 @@
 Name:           krecipes
 Version:        0.9.1
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        Application to manage recipes and shopping-lists
 
 Group:          Applications/Productivity
@@ -13,8 +13,9 @@ BuildRequires:  desktop-file-utils
 BuildRequires:  gettext
 BuildRequires:  kdelibs3-devel
 BuildRequires:  sqlite-devel
+BuildRequires:  mysql-devel
+BuildRequires:  postgresql-devel
 
-Patch0:		krecipes-gcc4.patch
 Patch1:		krecipes-X11.patch
 Patch2:         krecipes-0.9.1-gcc43.patch
 
@@ -27,12 +28,10 @@ your menu/diet in advance.
 %prep
 %setup -q
 
-## Neither patch0 or patch1 should be required anymore -- Rex
-#patch0 -p1 -b .gcc4
 # autoconf tools check for X is a file in libXt-devel  and Xt lib
 # we dont use or link against libXt so rather than adding an extra
 # BuildRequires I patched configure to look for something thats there
-#patch1 -p1 -b .X11
+%patch1 -p1 -b .X11
 
 %patch2 -p1 -b .gcc43
 
@@ -42,8 +41,9 @@ unset QTDIR || : ; . /etc/profile.d/qt.sh
 
 %configure \
   --disable-rpath \
-  --without-mysql \
-  --without-postgresql
+  --with-mysql \
+  --with-postgresql \
+  --with-sqlite
 
 make %{?_smp_mflags}
 
@@ -97,6 +97,10 @@ touch --no-create %{_datadir}/icons/crystalsvg || :
 %{_datadir}/mimelnk/*/*.desktop
 
 %changelog
+* Tue Jun 16 2009 Rex Dieter <rdieter@fedoraproject.org> - 0.9.1-11
+- re-enable mysql/postgresql support
+- re-enable mostly harmless X11 patch 
+
 * Wed Feb 25 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.9.1-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_11_Mass_Rebuild
 
