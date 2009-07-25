@@ -1,6 +1,6 @@
 Name:           krecipes
 Version:        0.9.1
-Release:        11%{?dist}
+Release:        12%{?dist}
 Summary:        Application to manage recipes and shopping-lists
 
 Group:          Applications/Productivity
@@ -97,6 +97,9 @@ touch --no-create %{_datadir}/icons/crystalsvg || :
 %{_datadir}/mimelnk/*/*.desktop
 
 %changelog
+* Fri Jul 24 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.9.1-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_12_Mass_Rebuild
+
 * Tue Jun 16 2009 Rex Dieter <rdieter@fedoraproject.org> - 0.9.1-11
 - re-enable mysql/postgresql support
 - re-enable mostly harmless X11 patch 
