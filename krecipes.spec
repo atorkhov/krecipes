@@ -1,22 +1,20 @@
 Name:           krecipes
-Version:        0.9.1
-Release:        10%{?dist}
+Version:        1.0
+Release:        0.1.beta2%{?dist}
 Summary:        Application to manage recipes and shopping-lists
 
 Group:          Applications/Productivity
 License:        GPLv2+
 URL:            http://krecipes.sourceforge.net/
-Source0:        http://download.sourceforge.net/krecipes/krecipes-%{version}.tar.gz
+Source0:        http://download.sourceforge.net/krecipes/krecipes-%{version}-beta2.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  desktop-file-utils
 BuildRequires:  gettext
 BuildRequires:  kdelibs3-devel
 BuildRequires:  sqlite-devel
-
-Patch0:		krecipes-gcc4.patch
-Patch1:		krecipes-X11.patch
-Patch2:         krecipes-0.9.1-gcc43.patch
+BuildRequires:  mysql-devel
+BuildRequires:  postgresql-devel
 
 %description
 Krecipes is a program that lets you to manage your recipes, create
@@ -25,25 +23,16 @@ your menu/diet in advance.
 
 
 %prep
-%setup -q
-
-## Neither patch0 or patch1 should be required anymore -- Rex
-#patch0 -p1 -b .gcc4
-# autoconf tools check for X is a file in libXt-devel  and Xt lib
-# we dont use or link against libXt so rather than adding an extra
-# BuildRequires I patched configure to look for something thats there
-#patch1 -p1 -b .X11
-
-%patch2 -p1 -b .gcc43
-
+%setup -q -n %{name}-%{version}-beta2
 
 %build
 unset QTDIR || : ; . /etc/profile.d/qt.sh
 
 %configure \
   --disable-rpath \
-  --without-mysql \
-  --without-postgresql
+  --with-mysql \
+  --with-postgresql \
+  --with-sqlite
 
 make %{?_smp_mflags}
 
@@ -97,6 +86,17 @@ touch --no-create %{_datadir}/icons/crystalsvg || :
 %{_datadir}/mimelnk/*/*.desktop
 
 %changelog
+* Mon Aug 17 2009 Toshio Kuratomi <toshio@fedoraproject.org> - 1.0-0.1.beta2
+- Update to 1.0beta2 as it fixes a crash that prevents krecipes from starting
+  with sqlite backend.
+
+* Fri Jul 24 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.9.1-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_12_Mass_Rebuild
+
+* Tue Jun 16 2009 Rex Dieter <rdieter@fedoraproject.org> - 0.9.1-11
+- re-enable mysql/postgresql support
+- re-enable mostly harmless X11 patch 
+
 * Wed Feb 25 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.9.1-10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_11_Mass_Rebuild
 
