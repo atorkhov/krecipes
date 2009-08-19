@@ -1,12 +1,12 @@
 Name:           krecipes
-Version:        0.9.1
-Release:        12%{?dist}
+Version:        1.0
+Release:        0.1.beta2%{?dist}
 Summary:        Application to manage recipes and shopping-lists
 
 Group:          Applications/Productivity
 License:        GPLv2+
 URL:            http://krecipes.sourceforge.net/
-Source0:        http://download.sourceforge.net/krecipes/krecipes-%{version}.tar.gz
+Source0:        http://download.sourceforge.net/krecipes/krecipes-%{version}-beta2.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  desktop-file-utils
@@ -16,9 +16,6 @@ BuildRequires:  sqlite-devel
 BuildRequires:  mysql-devel
 BuildRequires:  postgresql-devel
 
-Patch1:		krecipes-X11.patch
-Patch2:         krecipes-0.9.1-gcc43.patch
-
 %description
 Krecipes is a program that lets you to manage your recipes, create
 shopping lists, choose a recipe based on available ingredients and plan
@@ -26,15 +23,7 @@ your menu/diet in advance.
 
 
 %prep
-%setup -q
-
-# autoconf tools check for X is a file in libXt-devel  and Xt lib
-# we dont use or link against libXt so rather than adding an extra
-# BuildRequires I patched configure to look for something thats there
-%patch1 -p1 -b .X11
-
-%patch2 -p1 -b .gcc43
-
+%setup -q -n %{name}-%{version}-beta2
 
 %build
 unset QTDIR || : ; . /etc/profile.d/qt.sh
@@ -97,6 +86,10 @@ touch --no-create %{_datadir}/icons/crystalsvg || :
 %{_datadir}/mimelnk/*/*.desktop
 
 %changelog
+* Mon Aug 17 2009 Toshio Kuratomi <toshio@fedoraproject.org> - 1.0-0.1.beta2
+- Update to 1.0beta2 as it fixes a crash that prevents krecipes from starting
+  with sqlite backend.
+
 * Fri Jul 24 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.9.1-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_12_Mass_Rebuild
 
