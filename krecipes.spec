@@ -1,6 +1,6 @@
 Name:           krecipes
 Version:        1.0
-Release:        0.2.beta2%{?dist}
+Release:        0.3.beta2%{?dist}
 Summary:        Application to manage recipes and shopping-lists
 
 Group:          Applications/Productivity
@@ -86,6 +86,9 @@ touch --no-create %{_datadir}/icons/crystalsvg || :
 %{_datadir}/mimelnk/*/*.desktop
 
 %changelog
+* Fri Jan 13 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.0-0.3.beta2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_17_Mass_Rebuild
+
 * Mon Feb 07 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.0-0.2.beta2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_15_Mass_Rebuild
 
