@@ -1,6 +1,6 @@
 Name:           krecipes
-Version:        1.0
-Release:        0.3.beta2%{?dist}
+Version:        2.0
+Release:        0.1.beta2%{?dist}
 Summary:        Application to manage recipes and shopping-lists
 
 Group:          Applications/Productivity
@@ -11,10 +11,9 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:  desktop-file-utils
 BuildRequires:  gettext
-BuildRequires:  kdelibs3-devel
+BuildRequires:  kdelibs-devel
 BuildRequires:  sqlite-devel
-BuildRequires:  mysql-devel
-BuildRequires:  postgresql-devel
+BuildRequires:  qimageblitz-devel
 
 %description
 Krecipes is a program that lets you to manage your recipes, create
@@ -26,14 +25,7 @@ your menu/diet in advance.
 %setup -q -n %{name}-%{version}-beta2
 
 %build
-unset QTDIR || : ; . /etc/profile.d/qt.sh
-
-%configure \
-  --disable-rpath \
-  --with-mysql \
-  --with-postgresql \
-  --with-sqlite
-
+%{cmake_kde4}
 make %{?_smp_mflags}
 
 
@@ -42,20 +34,18 @@ rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
 
 desktop-file-install \
---dir $RPM_BUILD_ROOT%{_datadir}/applications \
---vendor=fedora \
---add-category=Application \
---add-category=Utility \
---add-category=KDE \
---add-category=Qt \
---delete-original \
-$RPM_BUILD_ROOT%{_datadir}/applnk/Utilities/krecipes.desktop
+    --dir $RPM_BUILD_ROOT%{_datadir}/applications/kde4 \
+    --vendor=fedora \
+    --add-category=Application \
+    --remove-category=Database \
+    --delete-original \
+    $RPM_BUILD_ROOT%{_datadir}/applications/kde4/krecipes.desktop
 
 ## File lists
 # locale's
-%find_lang %{name} || touch %{name}.lang
+%{find_lang} %{name}
 # HTML
-HTML_DIR=$(kde-config --expandvars --install html)
+HTML_DIR=$(kde4-config --expandvars --install html)
 if [ -d $RPM_BUILD_ROOT$HTML_DIR ]; then
 for lang_dir in $RPM_BUILD_ROOT$HTML_DIR/* ; do
    lang=$(basename $lang_dir)
@@ -67,25 +57,36 @@ fi
 rm -rf $RPM_BUILD_ROOT
 
 %post
-touch --no-create %{_datadir}/icons/hicolor || :
-touch --no-create %{_datadir}/icons/crystalsvg || :
+/bin/touch --no-create %{_datadir}/icons/hicolor &>/dev/null
+/bin/touch --no-create %{_datadir}/icons/oxygen &>/dev/null
+/usr/bin/update-mime-database %{_datadir}/mime &> /dev/null || :
 
 %postun
-touch --no-create %{_datadir}/icons/hicolor || :
-touch --no-create %{_datadir}/icons/crystalsvg || :
+if [ $1 -eq 0 ] ; then
+    /bin/touch --no-create %{_datadir}/icons/hicolor &>/dev/null
+    /bin/touch --no-create %{_datadir}/icons/oxygen &>/dev/null
+    /usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null
+fi
+/usr/bin/update-mime-database %{_datadir}/mime &> /dev/null || :
+
+%posttrans
+/usr/bin/gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %files -f %{name}.lang
 %defattr(-,root,root,-)
-%doc TODO AUTHORS README COPYING ChangeLog
+%doc BUGS TODO AUTHORS README COPYING ChangeLog
 %{_bindir}/krecipes
-%{_datadir}/applications/fedora-krecipes.desktop
-%{_datadir}/apps/krecipes
-%{_datadir}/icons/hicolor/*/apps/*
-%{_datadir}/icons/crystalsvg/*/mimetypes/krecipes_file.png
-%{_datadir}/mimelnk/*/*.desktop
+%{_datadir}/applications/kde4/fedora-krecipes.desktop
+%{_kde4_appsdir}/krecipes
+%{_datadir}/icons/hicolor/*/apps/*.png
+%{_datadir}/icons/oxygen/*/*/*.png
+%{_datadir}/mime/packages/*
 
 %changelog
+* Fri Jan 20 2012 Alexey Torkhov <atorkhov@gmail.com> - 2.0-0.1.beta2
+- Update to 2.0-beta2
+
 * Fri Jan 13 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.0-0.3.beta2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_17_Mass_Rebuild
 
